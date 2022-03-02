@@ -1,10 +1,12 @@
 # Devise API Authentication | Ruby on Rails 7 Tutorial
 
-Date: February 28, 2022 4:01 PM
-Tags: Authentification, Backend, Dev, Devise, Learning, Rails, Video, Web, Youtube
-URL: https://www.youtube.com/watch?v=PqizV5l1yFE
+[![THP Badge](https://raw.githubusercontent.com/Beygs/Beygs/main/assets/the-hacking-project-badge.svg)](https://www.thehackingproject.org/)
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/for-you.svg)](https://forthebadge.com)
 
----
+Vidéo de base :
+[![Lien de la vidéo de base](https://i.ytimg.com/vi/PqizV5l1yFE/maxresdefault.jpg)](https://www.youtube.com/watch?v=PqizV5l1yFE)
 
 ## Création de l’API 🛤
 
@@ -56,17 +58,15 @@ end
 
 ## Devise JWT 💲
 
-### Génération de la Denylist *(sert pour la sécurité)*
+### Génération de la Denylist
+La DenyList est une méthode révocation de Token JWT, en gros à chaque fois qu'un utilisateur se déconnecte ou que le token est expiré un nouveau token sera généré pour cet utilisateur
 
 `rails g model jwt_denylist jti:string exp:datetime`
 
 - Le jti est l’identifiant unique d’un token
 - Exp contient sa date d’expiration
 
-<aside>
-⚠️ Pour que tout fonctionne, vous devez renommer le fichier de migration (de `[timestamp]_create_jwt_denylists.rb` à `[timestamp]_create_jwt_denylist.rb`), la classe et la table au singulier (voir en-dessous)
-
-</aside>
+> ⚠️ Pour que tout fonctionne, vous devez renommer le fichier de migration (de `[timestamp]_create_jwt_denylists.rb` à `[timestamp]_create_jwt_denylist.rb`), la classe et la table au singulier (voir en-dessous)
 
 Fichier de migration :
 
@@ -153,10 +153,7 @@ end
 
 Deux nouveaux controllers à créer, qui modifieront les controllers de registration et de session de Devise
 
-<aside>
-⚠️ Il faut créer ces fichiers dans un dossier `users` dans `app/controllers` (voir le commentaire en haut des snippets)
-
-</aside>
+> ⚠️ Il faut créer ces fichiers dans un dossier `users` dans `app/controllers` (voir le commentaire en haut des snippets)
 
 ```ruby
 # app/controllers/users/registrations_controller.rb
@@ -306,6 +303,15 @@ Données attendues :
 }
 ```
 
+Pour la tester :
+```sh
+curl -XPOST -H "Content-Type: application/json" -d '{ "user": { "email": "test@example.com", "password": "12345678" } }' http://localhost:3000/users
+```
+Réponse :
+```sh
+=> {"message":"Signed up successfully.","user":{"id":[id],"email":"test@example.com","created_at":[timestamp],"updated_at":[timestamp]}
+```
+
 ### Login
 
 `POST /users/sign_in`
@@ -321,14 +327,59 @@ Données attendues
 }
 ```
 
-### Logout
+Pour la tester :
+```sh
+curl -XPOST -i -H "Content-Type: application/json" -d '{ "user": { "email": "test@example.com", "password": "12345678" } }' http://localhost:3000/users/sign_in
+```
+Réponse :
+```sh
+HTTP/1.1 200 OK
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 0
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+Vary: Accept, Origin
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDQiLCJzY3AiOiJ1c2VyIiwiYXVkIjpudWxsLCJpYXQiOjE2NDYyMTk4MTEsImV4cCI6MTY0NjIyMzQxMSwianRpIjoiZWMxNDk3NWItOTNkYS00YTE1LTg1YTQtZmQ0ODllOTI2MTIwIn0.ZxRTdqSQ-Ahh4To9qdheeMewFHmbZtvWa_gSYx5mD38
+Set-Cookie: _interslice_session=vOm61TiX5r758FI7DXxo07gRo%2F1lB08%2BrjKnf5N2q5oIOA4P3CI943u%2FbLSS3lJCyu%2FrFmLF8%2FliLCxhQTZN4DqNGgGgjZh6koGGyCxdFwshloUmSByg0D8vRA21kEQcCguvQ8BwJ1alzn6N9fAjXussdx63iL87TSUGhuWgSv3Ze4BkD1WsRG%2FFlH%2BJ%2Ba4mraPkGZCiQmfBlRLDjZ7n4mmWaE1ASsAhXmhf%2BeC79ag%2BQgE3ZOHkTzRUmnQft4BGeVC51ITCfvW47Cbi8elBQsfs2IzROxe9qtDOklzDcA%3D%3D--U%2FLRbl1%2FWXHqxKhR--lcsdl17IGM7jOT14NN8qZg%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/"3f408df0bede3cd5797e2190eefd79d9"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: f1e51158-e4c6-42f2-bb94-535869cdccb5
+X-Runtime: 0.256978
+Server-Timing: start_processing.action_controller;dur=0.2275390625, sql.active_record;dur=1.86376953125, instantiation.active_record;dur=0.0888671875, process_action.action_controller;dur=234.275390625
+Transfer-Encoding: chunked
 
-`DELETE /users/sign_out`
-
-Authentification nécessaire
+{"message":"You are logged in.","user":{"id":204,"email":"test@example.com","created_at":"2022-03-01T19:50:54.482Z","updated_at":"2022-03-01T19:50:54.482Z"}}
+```
 
 ### Login with token
 
 `GET /member-data`
 
 Authentification nécessaire
+
+Pour la tester :
+```sh
+curl -XGET -H [le token qui était dans Authorization dans la requête de login] -H "Content-Type: application/json" http://localhost:3000/member-data
+```
+Réponse :
+```sh
+{"message":"If you see this, you're in!","user":{"id":204,"email":"test@example.com","created_at":"2022-03-01T19:50:54.482Z","updated_at":"2022-03-01T19:50:54.482Z"}}
+```
+
+### Logout
+
+`DELETE /users/sign_out`
+
+Authentification nécessaire
+
+Pour la tester :
+```sh
+curl -XDELETE -H "Authorization: [le token qui était dans Authorization dans la requête juste avant]" -H "Content-Type: application/json" http://localhost:3000/users/sign_out
+```
+Réponse :
+```sh
+{"message":"You are logged out."}
+```
