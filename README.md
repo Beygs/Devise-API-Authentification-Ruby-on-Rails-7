@@ -18,9 +18,9 @@ Vidéo de base :
 
 `bundle add devise devise-jwt rack-cors`
 
-- Devise sert au setup de tout le système d’authentification en tant que tel
-- Devise-jwt est une extension de Devise permettant d’utiliser les JWT token pour l’authentification
-- Rack CORS
+- [Devise](https://github.com/heartcombo/devise) sert au setup de tout le système d’authentification en tant que tel
+- [Devise-jwt](https://github.com/waiting-for-dev/devise-jwt) est une extension de Devise permettant d’utiliser les JWT token pour l’authentification
+- [Rack CORS](https://github.com/cyu/rack-cors) permet de faire des requêtes cross-domains *(en gros de pouvoir faire des requêtes à l'API depuis un autre domaine)*
 
 ### Configuration de Rack CORS
 
