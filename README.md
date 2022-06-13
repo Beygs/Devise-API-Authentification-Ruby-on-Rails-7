@@ -221,7 +221,7 @@ end
 Devise.setup do |config|
 	# Plein de code
 	config.jwt do |jwt|
-		jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
+		jwt.secret = Rails.application.credentials.devise(:jwt_secret_key)
 	end
 	# Encore tout plein de code
 end
