@@ -383,3 +383,6 @@ Réponse :
 ```sh
 {"message":"You are logged out."}
 ```
+
+## Frequent Known Problems
+
