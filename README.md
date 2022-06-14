@@ -1,3 +1,5 @@
+<div align="center">
+
 # Devise API Authentication | Ruby on Rails 7 Tutorial
 
 [![THP Badge](https://raw.githubusercontent.com/Beygs/Beygs/main/assets/the-hacking-project-badge.svg)](https://www.thehackingproject.org/)
@@ -5,12 +7,23 @@
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/for-you.svg)](https://forthebadge.com)
 
-Vidéo de base :
+[Création de l’API 🛤](#création-de-lapi-) | 
+[Devise JWT 💲](#devise-jwt-) | 
+[Devise API JWT Controllers for Sessions and Registrations 🧒](#devise-api-jwt-controllers-for-sessions-and-registrations-) | 
+[Devise JWT Secret Key 🔑](#devise-jwt-secret-key-) | 
+[Routes 🛣](#routes-) | 
+[Frequent Known Problems 🔧](#frequent-known-problems-)
+
+
+
+</div>
+
+🎥 Vidéo de base :
 [![Lien de la vidéo de base](https://i.ytimg.com/vi/PqizV5l1yFE/maxresdefault.jpg)](https://www.youtube.com/watch?v=PqizV5l1yFE)
 
 ## Création de l’API 🛤
 
-### Création d’une app Rails en mode API *(donc sans front)*
+### Création d’une app Rails en mode API _(donc sans front)_
 
 `rails new my_api --api`
 
@@ -20,7 +33,7 @@ Vidéo de base :
 
 - [Devise](https://github.com/heartcombo/devise) sert au setup de tout le système d’authentification en tant que tel
 - [Devise-jwt](https://github.com/waiting-for-dev/devise-jwt) est une extension de Devise permettant d’utiliser les JWT token pour l’authentification
-- [Rack CORS](https://github.com/cyu/rack-cors) permet de faire des requêtes cross-domains *(en gros de pouvoir faire des requêtes à l'API depuis un autre domaine)*
+- [Rack CORS](https://github.com/cyu/rack-cors) permet de faire des requêtes cross-domains _(en gros de pouvoir faire des requêtes à l'API depuis un autre domaine)_
 
 ### Configuration de Rack CORS
 
@@ -59,6 +72,7 @@ end
 ## Devise JWT 💲
 
 ### Génération de la Denylist
+
 La DenyList est une méthode révocation de Token JWT, en gros à chaque fois qu'un utilisateur se déconnecte ou que le token est expiré un nouveau token sera généré pour cet utilisateur
 
 `rails g model jwt_denylist jti:string exp:datetime`
@@ -228,16 +242,16 @@ end
 ```
 
 1. Génération du secret
-    - `rake secret`
-    - Copie de la string générée
-    - `EDITOR=nano rails credentials:edit`
-    - Ajout en bas du fichier de :
-    
-    ```bash
-    devise:
-      jwt_secret_key: [clé copiée] // ⚠ Il faut mettre 2 espaces au début de cette ligne
-    ```
-    
+
+   - `rake secret`
+   - Copie de la string générée
+   - `EDITOR=nano rails credentials:edit`
+   - Ajout en bas du fichier de :
+
+   ```bash
+   devise:
+     jwt_secret_key: [clé copiée] // ⚠ Il faut mettre 2 espaces au début de cette ligne
+   ```
 
 ## Routes 🛣
 
@@ -304,10 +318,13 @@ Données attendues :
 ```
 
 Pour la tester :
+
 ```sh
 curl -XPOST -H "Content-Type: application/json" -d '{ "user": { "email": "test@example.com", "password": "12345678" } }' http://localhost:3000/users
 ```
+
 Réponse :
+
 ```sh
 => {"message":"Signed up successfully.","user":{"id":[id],"email":"test@example.com","created_at":[timestamp],"updated_at":[timestamp]}
 ```
@@ -328,10 +345,13 @@ Données attendues
 ```
 
 Pour la tester :
+
 ```sh
 curl -XPOST -i -H "Content-Type: application/json" -d '{ "user": { "email": "test@example.com", "password": "12345678" } }' http://localhost:3000/users/sign_in
 ```
+
 Réponse :
+
 ```sh
 HTTP/1.1 200 OK
 X-Frame-Options: SAMEORIGIN
@@ -361,10 +381,13 @@ Transfer-Encoding: chunked
 Authentification nécessaire
 
 Pour la tester :
+
 ```sh
 curl -XGET -H [le token qui était dans Authorization dans la requête de login] -H "Content-Type: application/json" http://localhost:3000/member-data
 ```
+
 Réponse :
+
 ```sh
 {"message":"If you see this, you're in!","user":{"id":204,"email":"test@example.com","created_at":"2022-03-01T19:50:54.482Z","updated_at":"2022-03-01T19:50:54.482Z"}}
 ```
@@ -376,13 +399,15 @@ Réponse :
 Authentification nécessaire
 
 Pour la tester :
+
 ```sh
 curl -XDELETE -H "Authorization: [le token qui était dans Authorization dans la requête juste avant]" -H "Content-Type: application/json" http://localhost:3000/users/sign_out
 ```
+
 Réponse :
+
 ```sh
 {"message":"You are logged out."}
 ```
 
-## Frequent Known Problems
-
+## Frequent Known Problems 🔧
