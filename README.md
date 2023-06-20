@@ -431,7 +431,7 @@ Dans `config/initializers/device.rb` changer ≈ligne 268 :
 en 
 
 ```ruby
-config.navigational_formats = [:html, :turbo_stream]
+config.navigational_formats = []
 ```
 
 
