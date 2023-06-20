@@ -411,3 +411,41 @@ Réponse :
 ```
 
 ## Frequent Known Problems 🔧
+
+### Erreur au moment du sign_in :
+
+Message d'erreur :
+
+```sh
+NameError (undefined local variable or method `flash' for #<Users::SessionsController:0x0000000000a960>):
+```
+
+Solution :
+
+Dans `config/initializers/device.rb` changer ≈ligne 268 :
+
+```ruby
+# config.navigational_formats = ['*/*', :html, :turbo_stream]
+```
+
+en 
+
+```ruby
+config.navigational_formats = []
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
